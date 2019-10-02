@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-
-n = 4 # Board Size
-q = [] # Queen Solutions
-b = [[0] * n for _ in range(n)] # Temp board
-
-print("Solving for", n)
+#import copy
+#import sys
 
 def pBoard(b):
 	print()
@@ -12,8 +8,7 @@ def pBoard(b):
 		print('{:>2}'.format(n-x), end = '| ')
 		for y in range(n):
 			print(b[x][y], end = ' ')
-			if y == (n-1):
-				print()
+		print()
 	return True
 
 def isFree(b,x,y):
@@ -39,10 +34,19 @@ def isFree(b,x,y):
 
 	return True
 
-for x in range(n):
-	for y in range(n):
-		if isFree(b,x,y):
-			b[x][y] = 1
-			pBoard(b)
-			# continue
+def solve():
+	for x in range(n):
+		for y in range(n):
+			if isFree(b,x,y):
+				b[x][y] = 1
+				pBoard(b)
+				# continue
+	return True
 
+n = 4 # Board Size
+q = [] # Queen Solutions
+b = [[0] * n for _ in range(n)] # Temp Board
+
+print("Solving for", n)
+
+solve()
