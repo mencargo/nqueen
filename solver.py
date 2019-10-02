@@ -33,26 +33,30 @@ def pBoard(b):
 		print()
 	return
 
-def isFree(b,x,y):
+def newMove(a, x, y, move):
 	# same row
-	for i in range(x):
-		if b[i][y] == 1:
-			return False
+	for i in range(n):
+		a[i][y] += move
 
 	# same column
-	for i in range(y):
-		if b[x][i] == 1:
-			return False
+	for i in range(n):
+		a[x][i] += move
 
 	# up left diagonal
 	for i, j in zip(range(x, -1, -1), range(y, -1, -1)): 
-		if b[i][j] == 1: 
-			return False
+		a[i][j] += move
 
 	# up right diagonal
 	for i, j in zip(range(x, -1, -1), range(y, n)): 
-		if b[i][j] == 1: 
-			return False
+		a[i][j] += move
+
+	# down left diagonal
+	for i, j in zip(range(x, 1, 1), range(y, -1, -1)): 
+		a[i][j] += move
+
+	# down right diagonal
+	for i, j in zip(range(x, 1, 1), range(y, n)): 
+		a[i][j] += move
 
 	return True
 
@@ -60,28 +64,34 @@ def newSolution(b):
 	global s
 	s.append(copy.deepcopy(b))
 
-def solve(b,x,n):
+def solve(b, a, x, n):
 	if x >= n:
 		return
 
 	for y in range(n):
-		if isFree(b, x, y):
+		if a[x][y] == 0:
+			newMove(a, x, y, 1)
 			b[x][y] = 1
 			if x == n - 1:
 				newSolution(b)
-				if log in [1,2]:
+				if log in [1, 2]:
 					pBoard(b)
 				b[x][y] = 0
+				newMove(a, x, y, -1)
 			if log == 2:
 				pBoard(b)
-			solve(b, x + 1, n)
+			elif log == 3:
+				pBoard(a)
+			solve(b, a, x + 1, n)
 			b[x][y] = 0
+			newMove(a, x, y, -1)
 
 
 for n in range(min, max):
 	s = [] # Solutions
-	b = [[0] * n for _ in range(n)] # Board
+	queens = [[0] * n for _ in range(n)] # Queens Board
+	attack = [[0] * n for _ in range(n)] # Attack Board Map
 	start = time.time()
 	print("N =", n, end = '| ')
-	solve(b, 0, n)
+	solve(queens, attack, 0, n)
 	print(len(s), "solutions found in", '{0:.5f}'.format(time.time() - start), "seconds")
