@@ -69,9 +69,11 @@ def solve(b,x,n):
 			b[x][y] = 1
 			if x == n - 1:
 				newSolution(b)
-				# pBoard(b)
+				if log in [1,2]:
+					pBoard(b)
 				b[x][y] = 0
-
+			if log == 2:
+				pBoard(b)
 			solve(b, x + 1, n)
 			b[x][y] = 0
 
