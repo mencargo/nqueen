@@ -2,8 +2,8 @@
 
 ## Usage:
 ```
-python3 solver.py [max_size] [min_size] [log_level]
- max_size  : Board maximum size, default = 14
+$ python3 solver.py [max_size] [min_size] [log_level]
+ max_size  : Board maximum size, default = 10
  min_size  : Board initial size, default = 1
  log_level : Output detail shown in the process, default = 0
              Recommended only whith min_size = max_size
