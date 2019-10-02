@@ -4,7 +4,7 @@ import copy
 import sys
 
 print("Usage: python3 solver.py [max_size] [min_size] [log_level]")
-print("max_size  : Board maximum size, default = 14")
+print("max_size  : Board maximum size, default = 10")
 print("min_size  : Board initial size, default = 1")
 print("log_level : Output detail shown in the process, default = 0")
 print("            Recommended only whith min_size = max_size")
@@ -13,17 +13,16 @@ print("            1 Dispaly all solutions with boards")
 print("            2 Dispaly all steps in the process, queen boards")
 print("            3 Dispaly all steps in the process, attack maps")
 print()
+log = 0
 min = 1
-max = 15
-show = False
-debug = False
+max = 11
 
-if len(sys.argv) != 2:
-	print("Size unspecified")
-elif str.isdigit(sys.argv[1]):
-	n = int(sys.argv[1])
-else:
-	print("N should be a positive integer")
+if len(sys.argv) >= 2 and str.isdigit(sys.argv[1]):
+	max = int(sys.argv[1]) + 1
+if len(sys.argv) >= 3 and str.isdigit(sys.argv[2]):
+	min = int(sys.argv[2])
+if len(sys.argv) >= 4 and str.isdigit(sys.argv[3]):
+	log = int(sys.argv[3])
 
 def pBoard(b):
 	print()
