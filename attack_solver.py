@@ -31,7 +31,6 @@ def pBoard(b):
 		for y in range(n):
 			print(b[x][y], end = ' ')
 		print()
-	return
 
 def newMove(a, x, y, move):
 	# same row
@@ -58,15 +57,8 @@ def newMove(a, x, y, move):
 	for i, j in zip(range(x, n), range(y, n)):
 		a[i][j] += move
 
-	return True
-
-def newSolution(b):
-	global s
-	s.append(copy.deepcopy(b))
-	if log > 0:
-		pBoard(b)
-
 def solve(b, a, x, n):
+	global s
 	if x >= n:
 		return
 
@@ -75,7 +67,9 @@ def solve(b, a, x, n):
 			newMove(a, x, y, 1)
 			b[x][y] = 1
 			if x == n - 1:
-				newSolution(b)
+				if log > 0:
+					pBoard(b)
+				s += 1
 				b[x][y] = 0
 				newMove(a, x, y, -1)
 			else:
@@ -87,12 +81,11 @@ def solve(b, a, x, n):
 				b[x][y] = 0
 				newMove(a, x, y, -1)
 
-
 for n in range(min, max):
-	s = [] # Solutions
+	s = 0 # Solutions
 	queens = [[0] * n for _ in range(n)] # Queens Board
 	attack = [[0] * n for _ in range(n)] # Attack Board Map
 	start = time.time()
 	print("N =", n, end = '| ')
 	solve(queens, attack, 0, n)
-	print(len(s), "solutions found in", '{0:.5f}'.format(time.time() - start), "seconds")
+	print(s, "solutions found in", '{0:.2f}'.format(time.time() - start), "seconds")

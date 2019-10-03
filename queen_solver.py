@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import time
-import copy
 import sys
 
 print("Usage: python3 queen_solver.py [max_size] [min_size] [log_level]")
@@ -55,13 +54,8 @@ def isFree(b, x, y):
 
 	return True
 
-def newSolution(b):
-	global s
-	s.append(copy.deepcopy(b))
-	if log > 0:
-		pBoard(b)
-
 def solve(b, x, n):
+	global s
 	if x >= n:
 		return
 
@@ -69,7 +63,9 @@ def solve(b, x, n):
 		if isFree(b, x, y):
 			b[x][y] = 1
 			if x == n - 1:
-				newSolution(b)
+				if log > 0:
+					pBoard(b)
+				s += 1
 				b[x][y] = 0
 			else:
 				if log == 2:
@@ -78,9 +74,9 @@ def solve(b, x, n):
 				b[x][y] = 0
 
 for n in range(min, max):
-	s = [] # Solutions
+	s = 0 # Solutions
 	queens = [[0] * n for _ in range(n)] # Queens Board
 	start = time.time()
 	print("N =", n, end = '| ')
 	solve(queens, 0, n)
-	print(len(s), "solutions found in", '{0:.5f}'.format(time.time() - start), "seconds")
+	print(s, "solutions found in", '{0:.2f}'.format(time.time() - start), "seconds")
