@@ -3,15 +3,15 @@ import time
 import copy
 import sys
 
-print("Usage: python3 solver.py [max_size] [min_size] [log_level]")
+print("Usage: python3 attack_solver.py [max_size] [min_size] [log_level]")
 print("max_size  : Board maximum size, default = 10")
 print("min_size  : Board initial size, default = 1")
 print("log_level : Output detail shown in the process, default = 0")
 print("            Recommended only whith min_size = max_size")
 print("            0 Only show statistics")
-print("            1 Dispaly all solutions with boards")
-print("            2 Dispaly all steps in the process, queen boards")
-print("            3 Dispaly all steps in the process, attack maps")
+print("            1 Display all solutions with boards")
+print("            2 Display all steps in the process showing queen boards")
+print("            3 Display all steps in the process showing attack maps")
 print()
 log = 0
 min = 1
@@ -43,19 +43,19 @@ def newMove(a, x, y, move):
 		a[x][j] += move
 
 	# up left diagonal
-	for i, j in zip(range(x, -1, -1), range(y, -1, -1)): 
+	for i, j in zip(range(x, -1, -1), range(y, -1, -1)):
 		a[i][j] += move
 
 	# up right diagonal
-	for i, j in zip(range(x, -1, -1), range(y, n)): 
+	for i, j in zip(range(x, -1, -1), range(y, n)):
 		a[i][j] += move
 
 	# down left diagonal
-	for i, j in zip(range(x, n), range(y, -1, -1)): 
+	for i, j in zip(range(x, n), range(y, -1, -1)):
 		a[i][j] += move
 
 	# down right diagonal
-	for i, j in zip(range(x, n), range(y, n)): 
+	for i, j in zip(range(x, n), range(y, n)):
 		a[i][j] += move
 
 	return True
@@ -63,6 +63,8 @@ def newMove(a, x, y, move):
 def newSolution(b):
 	global s
 	s.append(copy.deepcopy(b))
+	if log > 0:
+		pBoard(b)
 
 def solve(b, a, x, n):
 	if x >= n:
@@ -74,17 +76,16 @@ def solve(b, a, x, n):
 			b[x][y] = 1
 			if x == n - 1:
 				newSolution(b)
-				if log in [1, 2]:
-					pBoard(b)
 				b[x][y] = 0
 				newMove(a, x, y, -1)
-			if log == 2:
-				pBoard(b)
-			elif log == 3:
-				pBoard(a)
-			solve(b, a, x + 1, n)
-			b[x][y] = 0
-			newMove(a, x, y, -1)
+			else:
+				if log == 2:
+					pBoard(b)
+				elif log == 3:
+					pBoard(a)
+				solve(b, a, x + 1, n)
+				b[x][y] = 0
+				newMove(a, x, y, -1)
 
 
 for n in range(min, max):
