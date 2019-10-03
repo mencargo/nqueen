@@ -39,8 +39,8 @@ def newMove(a, x, y, move):
 		a[i][y] += move
 
 	# same column
-	for i in range(n):
-		a[x][i] += move
+	for j in range(n):
+		a[x][j] += move
 
 	# up left diagonal
 	for i, j in zip(range(x, -1, -1), range(y, -1, -1)): 
@@ -51,11 +51,11 @@ def newMove(a, x, y, move):
 		a[i][j] += move
 
 	# down left diagonal
-	for i, j in zip(range(x, 1, 1), range(y, -1, -1)): 
+	for i, j in zip(range(x, n), range(y, -1, -1)): 
 		a[i][j] += move
 
 	# down right diagonal
-	for i, j in zip(range(x, 1, 1), range(y, n)): 
+	for i, j in zip(range(x, n), range(y, n)): 
 		a[i][j] += move
 
 	return True
